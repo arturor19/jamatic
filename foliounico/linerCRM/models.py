@@ -143,6 +143,9 @@ class InstalacionDeServicio(models.Model):
     def __str__(self):
         return f'Instalación de {self.cliente.nombre_completo} - {self.fecha_instalacion}'
 
+    def direccion_cliente(self):
+        return self.cliente.direccion
+
     class Meta:
         verbose_name = "Instalación de Servicio"
         verbose_name_plural = "Instalaciones de Servicio"

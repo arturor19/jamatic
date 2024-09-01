@@ -131,7 +131,7 @@ class PagoAdmin(admin.ModelAdmin, ExportActionMixin):
 
 @admin.register(InstalacionDeServicio)
 class InstalacionDeServicioAdmin(admin.ModelAdmin, ExportActionMixin):
-    list_display = ('cliente', 'fecha_instalacion', 'tecnico', 'servicio_completado')
+    list_display = ('cliente', 'direccion_cliente', 'fecha_instalacion', 'tecnico', 'servicio_completado')
     search_fields = ('cliente__nombre_completo', 'servicio_completado')
     list_filter = ('fecha_instalacion', 'servicio_completado')
 
