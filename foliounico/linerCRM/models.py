@@ -70,11 +70,20 @@ class Cliente(models.Model):
     def meses_atrasados(self):
         hoy = timezone.now().date()
         meses_desde_alta = (hoy.year - self.fecha_alta.year) * 12 + hoy.month - self.fecha_alta.month
-        meses_pagados = self.pagos.count()
+
+        # calcular meses pagados con los pagos realizados
+        meses_pagados =  sum(pago.monto for pago in self.pagos.all()) / self.cuota
+
+        print(f"meses_pagados: {meses_pagados}")
+
         return max(0, meses_desde_alta - meses_pagados)
 
     def adeudo(self):
-        return self.meses_atrasados() * self.cuota
+        # Calcular el total de deuda acumulada en base a los meses atrasados
+        total_adeudo = self.meses_atrasados() * self.cuota
+
+        return total_adeudo
+
 
     def pagar_link(self):
         url = reverse('admin:linerCRM_pago_add')  # Ajusta 'crm' al nombre de tu aplicación
@@ -123,3 +132,17 @@ class ReporteFalla(models.Model):
 
     class Meta:
         verbose_name_plural = "Reportes de Fallas"
+
+
+class InstalacionDeServicio(models.Model):
+    cliente = models.ForeignKey(Cliente, related_name='instalaciones', on_delete=models.CASCADE)
+    fecha_instalacion = models.DateTimeField(auto_now_add=True)
+    tecnico = models.ForeignKey(get_user_model(), related_name='instalaciones', on_delete=models.CASCADE)
+    servicio_completado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Instalación de {self.cliente.nombre_completo} - {self.fecha_instalacion}'
+
+    class Meta:
+        verbose_name = "Instalación de Servicio"
+        verbose_name_plural = "Instalaciones de Servicio"

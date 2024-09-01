@@ -13,7 +13,7 @@ from import_export.admin import ExportActionMixin
 
 from .enums import Rol
 from .forms import RegistroUsuarioForm
-from .models import ReporteFalla, Pago, Cliente, CustomUser
+from .models import ReporteFalla, Pago, Cliente, CustomUser, InstalacionDeServicio
 from django.db.models import F, ExpressionWrapper, IntegerField, Subquery, OuterRef, Count
 from datetime import date
 
@@ -71,7 +71,7 @@ class AdeudoFilter(SimpleListFilter):
             )
 
 @admin.register(Cliente)
-class ClienteAdmin(admin.ModelAdmin):
+class ClienteAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = (
         'nombre_completo',
         'direccion',
@@ -128,6 +128,13 @@ class PagoAdmin(admin.ModelAdmin, ExportActionMixin):
             # Limitar los resultados de búsqueda solo a los clientes que coinciden con el término de búsqueda
             queryset = Pago.objects.filter(cliente__nombre_completo__icontains=search_term)
         return queryset, use_distinct
+
+@admin.register(InstalacionDeServicio)
+class InstalacionDeServicioAdmin(admin.ModelAdmin, ExportActionMixin):
+    list_display = ('cliente', 'fecha_instalacion', 'tecnico', 'servicio_completado')
+    search_fields = ('cliente__nombre_completo', 'servicio_completado')
+    list_filter = ('fecha_instalacion', 'servicio_completado')
+
 
 @admin.register(ReporteFalla)
 class ReporteFallaAdmin(admin.ModelAdmin, ExportActionMixin):
