@@ -80,9 +80,11 @@ class Cliente(models.Model):
 
     def adeudo(self):
         # Calcular el total de deuda acumulada en base a los meses atrasados
-        total_adeudo = self.meses_atrasados() * self.cuota
+        total_adeudo = self.cuota * self.meses_atrasados()
 
-        return total_adeudo
+        total_adeudo_redondeado = round(total_adeudo, 2)
+
+        return total_adeudo_redondeado
 
 
     def pagar_link(self):
@@ -124,7 +126,7 @@ class Pago(models.Model):
 class ReporteFalla(models.Model):
     cliente = models.ForeignKey(Cliente, related_name='reportes', on_delete=models.CASCADE)
     descripcion = models.TextField()
-    fecha_reporte = models.DateTimeField(auto_now_add=True)
+    fecha_reporte = models.DateTimeField(default=timezone.now)
     solucionado = models.BooleanField(default=False)
 
     def __str__(self):
@@ -136,7 +138,7 @@ class ReporteFalla(models.Model):
 
 class InstalacionDeServicio(models.Model):
     cliente = models.ForeignKey(Cliente, related_name='instalaciones', on_delete=models.CASCADE)
-    fecha_instalacion = models.DateTimeField(auto_now_add=True)
+    fecha_instalacion = models.DateTimeField(default=timezone.now)
     tecnico = models.ForeignKey(get_user_model(), related_name='instalaciones', on_delete=models.CASCADE)
     servicio_completado = models.BooleanField(default=False)
 

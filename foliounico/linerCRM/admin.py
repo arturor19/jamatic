@@ -14,7 +14,7 @@ from import_export.admin import ExportActionMixin
 from .enums import Rol
 from .forms import RegistroUsuarioForm
 from .models import ReporteFalla, Pago, Cliente, CustomUser, InstalacionDeServicio
-from django.db.models import F, ExpressionWrapper, IntegerField, Subquery, OuterRef, Count
+from django.db.models import F, ExpressionWrapper, IntegerField, Subquery, OuterRef, Count, Q
 from datetime import date
 
 @admin.site.admin_view
@@ -97,7 +97,11 @@ class ClienteAdmin(ExportActionMixin, admin.ModelAdmin):
         queryset, use_distinct = super().get_search_results(request, queryset, search_term)
         if request.user.rol == Rol.SECRETARIA and search_term:
             # Limitar los resultados de búsqueda solo a los clientes que coinciden con el término de búsqueda
-            queryset = Cliente.objects.filter(nombre_completo__icontains=search_term)
+            queryset = Cliente.objects.filter(
+                Q(nombre_completo__icontains=search_term) |
+                Q(direccion__icontains=search_term) |
+                Q(telefono__icontains=search_term)
+            )
         return queryset, use_distinct
 
 
