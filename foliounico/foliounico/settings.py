@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django_otp.middleware.OTPMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     #'linerCRM.middlewares.RestrictAccessByTimeMiddleware',
 ]
 
@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Folio_Unico_2022',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }
