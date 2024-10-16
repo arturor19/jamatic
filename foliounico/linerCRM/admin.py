@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django_otp.admin import OTPAdminSite
 from import_export.admin import ExportActionMixin
 
 from .enums import Rol
@@ -16,6 +17,8 @@ from .forms import RegistroUsuarioForm
 from .models import ReporteFalla, Pago, Cliente, CustomUser, InstalacionDeServicio
 from django.db.models import F, ExpressionWrapper, IntegerField, Subquery, OuterRef, Count, Q
 from datetime import date
+
+admin.site.__class__ = OTPAdminSite
 
 @admin.site.admin_view
 def custom_logout(request):
