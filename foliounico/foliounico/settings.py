@@ -29,7 +29,15 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-SESSION_COOKIE_AGE = 12 * 60 * 60  # 12 horas en segundos
+# Establece el tiempo de vida de la sesión en segundos (por ejemplo, 30 minutos)
+SESSION_COOKIE_AGE = 28800
+
+# Habilita la caducidad automática al cerrar el navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Habilita el uso de sesiones para usuarios autenticados
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 INSTALLED_APPS = [
     'phonenumber_field',
@@ -98,8 +106,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Folio_Unico_2022',
-        'HOST': 'db',
-        'PORT': 5432,
+        'HOST': 'localhost',
+        'PORT': db,
     }
 }
 
