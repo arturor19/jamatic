@@ -106,8 +106,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Folio_Unico_2022',
-        'HOST': 'localhost',
-        'PORT': db,
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
