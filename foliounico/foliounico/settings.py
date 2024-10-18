@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+SESSION_COOKIE_AGE = 12 * 60 * 60  # 12 horas en segundos
+
 INSTALLED_APPS = [
     'phonenumber_field',
     'linerCRM.apps.LinerConfig',
